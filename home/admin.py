@@ -1,5 +1,6 @@
 from django.contrib import admin
-from home.models import Login
+from home.models import Feedback
 
-# Register your models here.
-admin.site.register(Login)
+#Register your model here.
+
+admin.site.register(Feedback)

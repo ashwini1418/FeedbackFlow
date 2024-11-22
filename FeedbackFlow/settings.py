@@ -31,13 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home.apps.HomeConfig'
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -122,6 +125,16 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+# AUTH_USER_MODEL = 'home.HomeConfig'
+# Redirect URLs
+
+#added manually  for authentication
+LOGIN_URL = '/login/'  # Redirect unauthenticated users
+LOGIN_REDIRECT_URL = '/student/'  # Redirect after login
+LOGOUT_REDIRECT_URL = '/login/'  # Redirect after logout
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
