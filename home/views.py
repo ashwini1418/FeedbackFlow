@@ -2,9 +2,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from home.models import Feedback
+from home.models import complaint,Student, AdminProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+import uuid
+from home.forms import *
 
 # Home page view
 def index(request):
@@ -13,21 +15,6 @@ def index(request):
     }
     return render(request, "index.html", context)
 
-# Login view
-# def login(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#
-#         # Authenticate the user
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             auth_login(request, user)  # Log the user in
-#             return redirect('student')  # Redirect to the student page
-#         else:
-#             return render(request, "pages-login.html", {"error": "Invalid username or password"})
-#
-#     return render(request, "pages-login.html")
 def login(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -45,54 +32,36 @@ def login(request):
             messages.error(request, "Invalid username or password")
     return render(request, 'pages-login.html')
 
-# Signup view (optional, if you want to handle user registration)
 
-# def signup(request):
-#     if request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()  # Save the new user to the database
-#             messages.success(request, "Account created successfully. You can now log in.")
-#             return redirect('login')  # Redirect to login page after successful registration
-#         else:
-#             messages.error(request, "Error creating account. Please check the form and try again.")
-#     else:
-#         form = UserCreationForm()
-#
-#     return render(request, 'pages-signup.html', {'form': form})
-
-# def signup(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         email = request.POST['email']
-#         password1 = request.POST['password1']
-#         password2 = request.POST['password2']
-#         user_type = request.POST['user_type']
-#
-#         if password1 != password2:
-#             messages.error(request, "Passwords do not match.")
-#             return redirect('signup')
-#
-#         user = UserCreationForm.objects.create_user(username=username, email=email, password=password1)
-#         if user_type == 'admin':
-#             user.is_staff = True  # Mark the user as admin
-#         user.save()
-#
-#         messages.success(request, "Signup successful! You can now log in.")
-#         return redirect('login')
-#     return render(request, 'pages-signup.html')
 
 def signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()  # This creates the user based on form data
+            # Save the User
+            user = form.save()
+
+            # Determine role and save additional information
+            role = form.cleaned_data['role']
+            if role == 'student':
+                Student.objects.create(
+                    user=user,
+                    enrollment_number=form.cleaned_data['enrollment_number'],
+                    course=form.cleaned_data['course'],
+                    year_of_study=form.cleaned_data['year_of_study'],
+                )
+            elif role == 'admin':
+                AdminProfile.objects.create(
+                    user=user,
+                    department=form.cleaned_data['department'],
+                )
+
             messages.success(request, 'Your account has been created successfully. You can now log in.')
             return redirect('login')  # Redirect to login after successful signup
         else:
             messages.error(request, 'There was an error with your signup. Please try again.')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
 
     return render(request, 'pages-signup.html', {'form': form})
 # Logout view
@@ -104,13 +73,22 @@ def logout(request):
 @login_required(login_url='login')  # Require login to access this view
 def student(request):
     if request.method == "POST":
-        email = request.POST.get('email')
+        # Get category and description from the form
         category = request.POST.get('category')
         description = request.POST.get('description')
 
-        # Save feedback
-        feedback = Feedback(email=email, category=category, description=description)
-        feedback.save()
+        # Automatically fetch the email from the logged-in user's profile
+        email = request.user.email
+
+        # Create a new complaint
+        comp = complaint.objects.create(
+            email=email,
+            category=category,
+            description=description,
+        )
+
+        # Provide a success message to the user
+        return render(request, 'student.html', {'message': 'Complaint successfully registered.'})
 
     return render(request, 'student.html')
 
