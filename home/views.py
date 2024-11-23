@@ -27,7 +27,7 @@ def login(request):
         if user is not None:
             auth_login(request, user)
             if role == "admin":
-                return redirect('admin')  # Replace with your admin dashboard URL
+                return redirect('admindash')  # Replace with your admin dashboard URL
             elif role == "student":
                 return redirect('student')  # Replace with your student dashboard URL
         else:
@@ -121,4 +121,42 @@ def student(request):
     # Fetch complaints of the logged-in user, including the complaint_id
     complaints = Feedback.objects.filter(user=request.user).order_by('timestamp')
     return render(request, 'student.html', {'complaints': complaints})
+
+
+@login_required
+def admindash(request):
+    # Check if the user has an AdminProfile
+    try:
+        admin_profile = AdminProfile.objects.get(user=request.user)
+    except AdminProfile.DoesNotExist:
+        # If the user does not have an AdminProfile, redirect them
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('login')  # You can redirect to any page you'd like
+
+    # Fetch all complaints
+    complaints = Feedback.objects.all().order_by('-timestamp')
+
+    return render(request, 'admindash.html', {
+        'complaints': complaints,
+        'admin_profile': admin_profile  # You can pass the admin profile to the template if needed
+    })
+
+def update_complaint(request, complaint_id):
+    complaint = Feedback.objects.get(id=complaint_id)
+
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        remarks = request.POST.get('remarks')
+        admin_in_charge = request.POST.get('admin_in_charge')
+
+        complaint.status = status
+        complaint.remarks = remarks
+        complaint.admin_in_charge = admin_in_charge
+        complaint.save()
+
+        messages.success(request, "Complaint updated successfully!")
+        return redirect('admin_dashboard')
+
+    return render(request, 'admindash.html', {'complaint': complaint})
+
 
