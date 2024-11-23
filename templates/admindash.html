@@ -12,88 +12,212 @@
       background-color: #f8f9fa;
       padding: 20px;
     }
+
+    h3, h1, h2 {
+      font-weight: bold;
+    }
+
     .table-container {
       margin-top: 40px;
     }
+
+    .table {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table th, .table td {
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    .table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .table-striped tbody tr:nth-child(odd) {
+      background-color: #f1f8ff;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #d1e7fd;
+    }
+
     .form-control {
       border-radius: 4px;
     }
+
     .btn-submit {
       background-color: #007bff;
       color: #fff;
       font-weight: bold;
+      border-radius: 4px;
     }
+
     .btn-submit:hover {
       background-color: #0056b3;
     }
-    .card-body {
-      padding: 20px;
-    }
+
     .badge {
       font-size: 0.9rem;
+    }
+
+    .modal-content {
+      border-radius: 8px;
+    }
+
+    .modal-header {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #ccc;
+    }
+
+    .list-group-item {
+      border: 1px solid #f0f0f0;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary, .btn-info {
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 4px;
+    }
+
+    .btn-info {
+      background-color: #17a2b8;
+    }
+
+    .btn-info:hover {
+      background-color: #117a8b;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
 
-<!-- Inside the body of the admin dashboard template -->
 <h3>Welcome, {{ admin_profile.user.username }} ({{ admin_profile.department }})</h3>
 
+<div class="container">
+  <h1 class="text-center mb-4">Admin Dashboard - Complaints</h1>
 
-  <div class="container">
-    <h1 class="text-center mb-4">Admin Dashboard - Complaints</h1>
+  <div class="table-container">
+    <h2 class="text-center mb-4">Complaints List</h2>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Complaint ID</th>
+          <th>Complainant</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Admin In Charge</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for complaint in complaints %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ complaint.complaint_id }}</td>
+          <td>{{ complaint.user.username }}</td> <!-- Display complainant -->
+          <td>{{ complaint.category }}</td>
+          <td>{{ complaint.description }}</td>
+          <td>{{ complaint.status }}</td>
+          <td>{{ complaint.admin_in_charge|default:"Not Assigned" }}</td>
+          <td>
+            <!-- Button to trigger modal for actions -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#actionModal{{ complaint.complaint_id }}">
+              Take Action
+            </button>
 
-    <div class="table-container">
-      <h2 class="text-center mb-4">Complaints List</h2>
-      <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th>#</th>
-            <th>Complaint ID</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Admin In Charge</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for complaint in complaints %}
-    <div class="modal fade" id="actionModal{{ complaint.id }}" tabindex="-1" aria-labelledby="actionModalLabel{{ complaint.id }}" aria-hidden="true">
-        <div class="modal-dialog">
+            <!-- Remarks History Button -->
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#remarksHistoryModal{{ complaint.complaint_id }}">
+              Remarks History
+            </button>
+          </td>
+        </tr>
+
+        <!-- Modal for updating complaint -->
+        <div class="modal fade" id="actionModal{{ complaint.complaint_id }}" tabindex="-1" aria-labelledby="actionModalLabel{{ complaint.complaint_id }}" aria-hidden="true">
+          <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="actionModalLabel{{ complaint.id }}">Action on Complaint #{{ complaint.complaint_id }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{% url 'update_complaint' complaint.complaint_id %}">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select name="status" id="status" class="form-control" required>
-                                <option {% if complaint.status == 'Pending' %}selected{% endif %}>Pending</option>
-                                <option {% if complaint.status == 'In Progress' %}selected{% endif %}>In Progress</option>
-                                <option {% if complaint.status == 'Closed' %}selected{% endif %}>Closed</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="remarks" class="form-label">Remarks</label>
-                            <textarea name="remarks" id="remarks" class="form-control" rows="3">{{ complaint.remarks }}</textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+              <div class="modal-header">
+                <h5 class="modal-title" id="actionModalLabel{{ complaint.complaint_id }}">
+                  Action on Complaint #{{ complaint.complaint_id }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="{% url 'update_complaint' complaint.complaint_id %}">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-control" required>
+                      <option {% if complaint.status == 'Pending' %}selected{% endif %}>Pending</option>
+                      <option {% if complaint.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                      <option {% if complaint.status == 'Closed' %}selected{% endif %}>Closed</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="remarks" class="form-label">Remarks</label>
+                    <textarea name="remarks" id="remarks" class="form-control" rows="3">{{ complaint.remarks }}</textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="admin_in_charge" class="form-label">Admin In Charge</label>
+                    <input type="text" name="admin_in_charge" id="admin_in_charge" class="form-control" value="{{ request.user.username }}" readonly>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-{% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Modal for Remarks History -->
+        <div class="modal fade" id="remarksHistoryModal{{ complaint.complaint_id }}" tabindex="-1" aria-labelledby="remarksHistoryModalLabel{{ complaint.complaint_id }}" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="remarksHistoryModalLabel{{ complaint.complaint_id }}">
+                  Remarks History for Complaint #{{ complaint.complaint_id }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <ul class="list-group">
+                  {% for remark in complaint.remarks_history.all %}
+                    <li class="list-group-item">
+                      <strong>{{ remark.admin.username }}</strong> ({{ remark.timestamp }})<br>
+                      {{ remark.remark }}
+                    </li>
+                  {% empty %}
+                    <li class="list-group-item">No remarks yet.</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

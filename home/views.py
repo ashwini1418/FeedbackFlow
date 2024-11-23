@@ -125,37 +125,39 @@ def student(request):
 
 @login_required
 def admindash(request):
-    # Check if the user has an AdminProfile
+    # Check if the user is an admin
     try:
         admin_profile = AdminProfile.objects.get(user=request.user)
     except AdminProfile.DoesNotExist:
-        # If the user does not have an AdminProfile, redirect them
         messages.error(request, "You are not authorized to view this page.")
-        return redirect('login')  # You can redirect to any page you'd like
+        return redirect('home')
 
     # Fetch all complaints
-    complaints = Feedback.objects.all().order_by('-timestamp')
+    complaints = Feedback.objects.select_related('user').all().order_by('-timestamp')
 
     return render(request, 'admindash.html', {
         'complaints': complaints,
-        'admin_profile': admin_profile  # You can pass the admin profile to the template if needed
+        'admin_profile': admin_profile
     })
 
+@login_required
 def update_complaint(request, complaint_id):
-    complaint = Feedback.objects.get(id=complaint_id)
+    complaint = Feedback.objects.get(complaint_id=complaint_id)
 
     if request.method == 'POST':
-        status = request.POST.get('status')
-        remarks = request.POST.get('remarks')
-        admin_in_charge = request.POST.get('admin_in_charge')
-
-        complaint.status = status
-        complaint.remarks = remarks
-        complaint.admin_in_charge = admin_in_charge
+        # Update the complaint status and admin in charge
+        complaint.status = request.POST.get('status')
+        complaint.admin_in_charge = request.user.username
         complaint.save()
 
-        messages.success(request, "Complaint updated successfully!")
-        return redirect('admin_dashboard')
+        # Create a new Remark
+        Remark.objects.create(
+            complaint=complaint,  # Associate the remark with the complaint
+            admin=request.user,  # Assign the admin user to the remark
+            remark=request.POST.get('remarks')  # Get the remark text from the form
+        )
+
+        return redirect('admindash')  # Redirect to the complaints list page
 
     return render(request, 'admindash.html', {'complaint': complaint})
 

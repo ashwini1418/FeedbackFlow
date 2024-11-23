@@ -6,3 +6,4 @@ from home.models import *
 admin.site.register(Feedback)
 admin.site.register(AdminProfile)
 admin.site.register(Student)
+admin.site.register(Remark)

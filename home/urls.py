@@ -25,5 +25,5 @@ urlpatterns = [
     path('student/', views.student, name='student'),  # Protected student page
     path('logout/', views.logout, name='logout'),  # Logout view
     path('admindash/',views.admindash ,name='admindash'),
-    path('admin/admindash/update/<str:complaint_id>/', views.update_complaint, name='update_complaint'),
+    path('admindash/update/<str:complaint_id>/', views.update_complaint, name='update_complaint'),
 ]
