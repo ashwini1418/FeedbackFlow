@@ -1,14 +1,12 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feedback Form</title>
+  <title>Register and View Complaints</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-  <!-- Custom Styles -->
   <style>
     body {
       background-color: #f8f9fa;
@@ -20,8 +18,8 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       padding: 20px;
     }
-    label {
-      font-weight: bold;
+    .table-container {
+      margin-top: 40px;
     }
     .form-control {
       border-radius: 4px;
@@ -36,41 +34,72 @@
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <h1 class="text-center mb-4">Register Complaint</h1>
+
+    <!-- Registration Form -->
     <form method="POST">
       {% csrf_token %}
-      <div class="row g-3 mb-3">
-    <div class="col-md-6">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" value="{{ user.email }}" readonly>
-    </div>
-</div>
-
-        <div class="col-md-4">
-          <label for="category" class="form-label">Category</label>
-          <select name="category" id="category" class="form-control" required>
-            <option selected>Hostel</option>
-            <option>Academic</option>
-          </select>
-        </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select name="category" id="category" class="form-control" required>
+          <option selected>Hostel</option>
+          <option>Academic</option>
+        </select>
       </div>
-
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea name="description" class="form-control" id="description" rows="4" placeholder="Provide detailed feedback" required></textarea>
+        <textarea name="description" class="form-control" id="description" rows="4" placeholder="Enter your complaint" required></textarea>
       </div>
-
       <button type="submit" class="btn btn-submit btn-block">Submit</button>
     </form>
+
+    <!-- Complaints Table -->
+    <div class="table-container">
+      <h2 class="text-center mb-4">My Complaints</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Complaint ID</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for complaint in complaints %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ complaint.complaint_id }}</td>
+              <td>{{ complaint.category }}</td>
+              <td>{{ complaint.description }}</td>
+              <td>
+                <span class="badge
+                  {% if complaint.status == 'Pending' %} bg-warning
+                  {% elif complaint.status == 'In Progress' %} bg-info
+                  {% else %} bg-success
+                  {% endif %}">
+                  {{ complaint.status }}
+                </span>
+              </td>
+              <td>{{ complaint.timestamp|date:"d M Y, H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6" class="text-center">No complaints registered yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
