@@ -161,4 +161,19 @@ def update_complaint(request, complaint_id):
 
     return render(request, 'admindash.html', {'complaint': complaint})
 
+def dashboard(request):
+    # Fetch statistics
+    issues_resolved = Complaint.objects.filter(status='resolved').count()
+    complaints_received = Complaint.objects.count()
+    pending_actions = Complaint.objects.filter(status='pending').count()
+    no_of_users = User.objects.count()
+
+    context = {
+        'issues_resolved': issues_resolved,
+        'complaints_received': complaints_received,
+        'pending_actions': pending_actions,
+        'no_of_users': no_of_users,
+    }
+    return render(request, 'index.html', context)
+
 

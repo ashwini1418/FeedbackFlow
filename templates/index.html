@@ -47,7 +47,7 @@
         <ul>
           <li><a href="#hero" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#team">Team</a></li>
+{#          <li><a href="#team">Team</a></li>#}
           <li class="dropdown"><a href="#"><span>login/signup</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="{% url 'login' %}">login</a></li>
@@ -140,49 +140,89 @@ Let’s build a better campus experience, one solution at a time!</p>
     </section><!-- /Features Section -->
 
     <!-- Stats Section -->
-    <section id="stats" class="stats section light-background">
+{#    <section id="stats" class="stats section light-background">#}
+{##}
+{#      <div class="container" data-aos="fade-up" data-aos-delay="100">#}
+{##}
+{#        <div class="row gy-4">#}
+{##}
+{#          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">#}
+{#            <i class="bi bi-emoji-smile"></i>#}
+{#            <div class="stats-item">#}
+{#              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>#}
+{#              <p>Issues Resolved</p>#}
+{#            </div>#}
+{#          </div><!-- End Stats Item -->#}
+{##}
+{#          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">#}
+{#            <i class="bi bi-journal-richtext"></i>#}
+{#            <div class="stats-item">#}
+{#              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>#}
+{#              <p>Complaints Received</p>#}
+{#            </div>#}
+{#          </div><!-- End Stats Item -->#}
+{##}
+{#          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">#}
+{#            <i class="bi bi-headset"></i>#}
+{#            <div class="stats-item">#}
+{#              <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>#}
+{#              <p>Pending Actions</p>#}
+{#            </div>#}
+{#          </div><!-- End Stats Item -->#}
+{##}
+{#          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">#}
+{#            <i class="bi bi-people"></i>#}
+{#            <div class="stats-item">#}
+{#              <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>#}
+{#              <p>No. of users</p>#}
+{#            </div>#}
+{#          </div><!-- End Stats Item -->#}
+{##}
+{#        </div>#}
+{##}
+{#      </div>#}
+{##}
+{#    </section><!-- /Stats Section -->#}
+      <section id="stats" class="stats section light-background">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-emoji-smile"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Issues Resolved</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-journal-richtext"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Complaints Received</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-headset"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Pending Actions</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <i class="bi bi-people"></i>
-            <div class="stats-item">
-              <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-              <p>No. of users</p>
-            </div>
-          </div><!-- End Stats Item -->
-
+      <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+        <i class="bi bi-emoji-smile"></i>
+        <div class="stats-item">
+          <span>{{ issues_resolved }}</span>
+          <p>Issues Resolved</p>
         </div>
-
       </div>
 
-    </section><!-- /Stats Section -->
+      <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+        <i class="bi bi-journal-richtext"></i>
+        <div class="stats-item">
+          <span>{{ complaints_received }}</span>
+          <p>Complaints Received</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+        <i class="bi bi-headset"></i>
+        <div class="stats-item">
+          <span>{{ pending_actions }}</span>
+          <p>Pending Actions</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+        <i class="bi bi-people"></i>
+        <div class="stats-item">
+          <span>{{ no_of_users }}</span>
+          <p>No. of Users</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
 
     <!-- Testimonials Section -->
@@ -299,130 +339,130 @@ Let’s build a better campus experience, one solution at a time!</p>
     </section><!-- /Testimonials Section -->
 
     <!-- Team Section -->
-    <section id="team" class="team section">
+{#    <section id="team" class="team section">#}
+{##}
+{#      <!-- Section Title -->#}
+{#      <div class="container section-title" data-aos="fade-up">#}
+{#        <h2>Team</h2>#}
+{#        <div><span>Check Our</span> <span class="description-title">Team</span></div>#}
+{#      </div><!-- End Section Title -->#}
+{##}
+{#      <div class="container">#}
+{##}
+{#        <div class="row gy-5">#}
+{##}
+{#          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">#}
+{#            <div class="member">#}
+{#              <div class="pic"><img src="{% static "index/img/team/team-1.jpg" %}" class="img-fluid" alt=""></div>#}
+{#              <div class="member-info">#}
+{#                <h4>Walter White</h4>#}
+{#                <span>Chief Executive Officer</span>#}
+{#                <div class="social">#}
+{#                  <a href=""><i class="bi bi-twitter-x"></i></a>#}
+{#                  <a href=""><i class="bi bi-facebook"></i></a>#}
+{#                  <a href=""><i class="bi bi-instagram"></i></a>#}
+{#                  <a href=""><i class="bi bi-linkedin"></i></a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div><!-- End Team Member -->#}
+{##}
+{#          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">#}
+{#            <div class="member">#}
+{#              <div class="pic"><img src="{% static "index/img/team/team-2.jpg" %}" class="img-fluid" alt=""></div>#}
+{#              <div class="member-info">#}
+{#                <h4>Sarah Jhonson</h4>#}
+{#                <span>Product Manager</span>#}
+{#                <div class="social">#}
+{#                  <a href=""><i class="bi bi-twitter-x"></i></a>#}
+{#                  <a href=""><i class="bi bi-facebook"></i></a>#}
+{#                  <a href=""><i class="bi bi-instagram"></i></a>#}
+{#                  <a href=""><i class="bi bi-linkedin"></i></a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div><!-- End Team Member -->#}
+{##}
+{#          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">#}
+{#            <div class="member">#}
+{#              <div class="pic"><img src="{% static "index/img/team/team-3.jpg" %}" class="img-fluid" alt=""></div>#}
+{#              <div class="member-info">#}
+{#                <h4>William Anderson</h4>#}
+{#                <span>CTO</span>#}
+{#                <div class="social">#}
+{#                  <a href=""><i class="bi bi-twitter-x"></i></a>#}
+{#                  <a href=""><i class="bi bi-facebook"></i></a>#}
+{#                  <a href=""><i class="bi bi-instagram"></i></a>#}
+{#                  <a href=""><i class="bi bi-linkedin"></i></a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div><!-- End Team Member -->#}
+{##}
+{#        </div>#}
+{##}
+{#      </div>#}
+{##}
+{#    </section><!-- /Team Section -->#}
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Team</h2>
-        <div><span>Check Our</span> <span class="description-title">Team</span></div>
-      </div><!-- End Section Title -->
 
-      <div class="container">
-
-        <div class="row gy-5">
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="member">
-              <div class="pic"><img src="{% static "index/img/team/team-1.jpg" %}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="member">
-              <div class="pic"><img src="{% static "index/img/team/team-2.jpg" %}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="member">
-              <div class="pic"><img src="{% static "index/img/team/team-3.jpg" %}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Team Section -->
-
-
-    <!-- Faq Section -->
-    <section id="faq" class="faq section light-background">
-
-      <div class="container-fluid">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
-
-            <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
-              <h3><span>Frequently Asked </span><strong>Questions</strong></h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-              </p>
-            </div>
-
-            <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
-
-              <div class="faq-item faq-active">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
-                <div class="faq-content">
-                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <i class="faq-icon bi bi-question-circle"></i>
-                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-5 order-1 order-lg-2">
-            <img src="{%  static "index/img/faq.jpg" %}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- /Faq Section -->
+{#    <!-- Faq Section -->#}
+{#    <section id="faq" class="faq section light-background">#}
+{##}
+{#      <div class="container-fluid">#}
+{##}
+{#        <div class="row gy-4">#}
+{##}
+{#          <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">#}
+{##}
+{#            <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">#}
+{#              <h3><span>Frequently Asked </span><strong>Questions</strong></h3>#}
+{#              <p>#}
+{#                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit#}
+{#              </p>#}
+{#            </div>#}
+{##}
+{#            <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">#}
+{##}
+{#              <div class="faq-item faq-active">#}
+{#                <i class="faq-icon bi bi-question-circle"></i>#}
+{#                <h3>Non consectetur a erat nam at lectus urna duis?</h3>#}
+{#                <div class="faq-content">#}
+{#                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>#}
+{#                </div>#}
+{#                <i class="faq-toggle bi bi-chevron-right"></i>#}
+{#              </div><!-- End Faq item-->#}
+{##}
+{#              <div class="faq-item">#}
+{#                <i class="faq-icon bi bi-question-circle"></i>#}
+{#                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>#}
+{#                <div class="faq-content">#}
+{#                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>#}
+{#                </div>#}
+{#                <i class="faq-toggle bi bi-chevron-right"></i>#}
+{#              </div><!-- End Faq item-->#}
+{##}
+{#              <div class="faq-item">#}
+{#                <i class="faq-icon bi bi-question-circle"></i>#}
+{#                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>#}
+{#                <div class="faq-content">#}
+{#                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>#}
+{#                </div>#}
+{#                <i class="faq-toggle bi bi-chevron-right"></i>#}
+{#              </div><!-- End Faq item-->#}
+{##}
+{#            </div>#}
+{##}
+{#          </div>#}
+{##}
+{#          <div class="col-lg-5 order-1 order-lg-2">#}
+{#            <img src="{%  static "index/img/faq.jpg" %}" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#      </div>#}
+{##}
+{#    </section><!-- /Faq Section -->#}
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">
@@ -486,7 +526,7 @@ Let’s build a better campus experience, one solution at a time!</p>
             <p>IIT JAMMU</p>
             <p>Nagrota,J&K</p>
             <p class="mt-3"><strong>Phone:</strong> <span>+91 9073514931</span></p>
-            <p><strong>Email:</strong> <span>bengualibabu@gmail.com</span></p>
+            <p><strong>Email:</strong> <span>feedback_management@iitjammu.ac.in</span></p>
           </div>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
@@ -518,11 +558,11 @@ Let’s build a better campus experience, one solution at a time!</p>
           </ul>
         </div>
 
-        <div class="col-lg-4 col-md-12 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-
-        </div>
+{#        <div class="col-lg-4 col-md-12 footer-newsletter">#}
+{#          <h4>Our Newsletter</h4>#}
+{#          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>#}
+{##}
+{#        </div>#}
 
       </div>
     </div>
